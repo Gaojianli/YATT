@@ -13,6 +13,11 @@ class VideoAdapter(private val videoList: List<VideoResponse>) :
     RecyclerView.Adapter<VideoAdapter.Companion.VideoViewHolder>() {
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.binding.setVariable(BR.videoItem, videoList[position])
+        val avatarView: ImageView = holder.itemView.findViewById(R.id.avatar_img)
+        Glide.with(mContext)
+            .load(videoList[position].avatarUrl)
+            .placeholder(R.mipmap.default_avatar)
+            .into(avatarView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
