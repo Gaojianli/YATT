@@ -9,4 +9,9 @@
     <color name="rainbow_green">#8eac00</color>
     <color name="rainbow_blue">#127a97</color>
     <color name="rainbow_purple">#452b72</color>
+    <color name="light_blue_600">#039BE5</color>
+    <color name="light_blue_900">#01579B</color>
+    <color name="light_blue_A200">#40C4FF</color>
+    <color name="light_blue_A400">#00B0FF</color>
+    <color name="black_overlay">#66000000</color>
 </resources>

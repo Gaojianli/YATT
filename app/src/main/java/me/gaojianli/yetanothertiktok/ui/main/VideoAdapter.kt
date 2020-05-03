@@ -1,9 +1,11 @@
 package me.gaojianli.yetanothertiktok.ui.main
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,6 +18,12 @@ class VideoAdapter(private val videoList: List<VideoResponse>, private val mCont
     RecyclerView.Adapter<VideoAdapter.Companion.VideoViewHolder>() {
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.binding.setVariable(BR.videoItem, videoList[position])
+        val cardView: CardView = holder.itemView.findViewById(R.id.list_item_cardview)
+        cardView.setOnClickListener {
+            val intent = Intent(mContext, PlayActivity::class.java)
+            intent.putExtra("videoInfo", videoList[position])
+            mContext.startActivity(intent)
+        }
         val avatarView: ImageView = holder.itemView.findViewById(R.id.avatar_img)
         Glide.with(mContext)
             .load(videoList[position].avatarUrl)

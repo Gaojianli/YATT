@@ -1,8 +1,9 @@
-package me.gaojianli.yetanothertiktok
+package me.gaojianli.yetanothertiktok.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import me.gaojianli.yetanothertiktok.ui.main.MainFragment
+import androidx.appcompat.app.AppCompatActivity
+import me.gaojianli.yetanothertiktok.R
+import me.gaojianli.yetanothertiktok.ui.main.fragments.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package me.gaojianli.yetanothertiktok.ui.main
+package me.gaojianli.yetanothertiktok.ui.main.fragments
 
 import android.animation.Animator
 import android.animation.AnimatorInflater
@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import me.gaojianli.yetanothertiktok.R
+import me.gaojianli.yetanothertiktok.ui.main.VideoAdapter
+import me.gaojianli.yetanothertiktok.ui.main.viewmodels.MainViewModel
 
 class MainFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() =
+            MainFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -31,8 +34,8 @@ class MainFragment : Fragment() {
         viewModel.videoList.observe(this, Observer { t ->
             val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewList)
             recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = VideoAdapter(t, context!!)
-
+            recyclerView.adapter =
+                VideoAdapter(t, context!!)
             val animateView: LottieAnimationView = view.findViewById(R.id.loading_animate)
             val fadeOutAnimator = AnimatorInflater.loadAnimator(context, R.animator.fade_out)
             val fadeInAnimator = AnimatorInflater.loadAnimator(context, R.animator.fade_in)

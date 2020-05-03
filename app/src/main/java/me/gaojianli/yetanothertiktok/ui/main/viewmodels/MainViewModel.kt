@@ -1,4 +1,4 @@
-package me.gaojianli.yetanothertiktok.ui.main
+package me.gaojianli.yetanothertiktok.ui.main.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData

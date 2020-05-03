@@ -10,4 +10,4 @@ data class VideoResponse(
     @SerializedName("description") val description: String,
     @SerializedName("likecount") val likeCount: Int,
     @SerializedName("avatar") val avatarUrl: String
-) : BaseObservable()
+) : BaseObservable(), java.io.Serializable
