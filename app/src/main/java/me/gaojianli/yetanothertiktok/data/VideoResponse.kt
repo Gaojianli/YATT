@@ -8,6 +8,6 @@ data class VideoResponse(
     @SerializedName("feedurl") val url: String,
     @SerializedName("nickname") val nickname: String,
     @SerializedName("description") val description: String,
-    @SerializedName("likecount") val likecount: Int,
+    @SerializedName("likecount") val likeCount: Int,
     @SerializedName("avatar") val avatarUrl: String
 ) : BaseObservable()
