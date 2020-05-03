@@ -1,11 +1,19 @@
-image: cifcq90g.mirror.aliyuncs.com/runmymind/docker-android-sdk:alpine-standalone
+image: jangrewe/gitlab-ci-android
 
 variables:
   ANDROID_COMPILE_SDK: "29"
+  APP_NAME: "Yet Another tiktok"
   ANDROID_BUILD_TOOLS: "29.0.3"
   ANDROID_SDK_TOOLS:   "6392135"
 
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .m2/
+    - .gradle/
+
 before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
   - chmod +x ./gradlew
 
 stages:
