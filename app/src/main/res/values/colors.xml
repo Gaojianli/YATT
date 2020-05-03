@@ -4,4 +4,9 @@
     <color name="purple500">#6200EE</color>
     <color name="purple700">#3700B3</color>
     <color name="teal200">#03DAC5</color>
+    <color name="rainbow_red">#bf0c43</color>
+    <color name="rainbow_yellow">#f9ba15</color>
+    <color name="rainbow_green">#8eac00</color>
+    <color name="rainbow_blue">#127a97</color>
+    <color name="rainbow_purple">#452b72</color>
 </resources>

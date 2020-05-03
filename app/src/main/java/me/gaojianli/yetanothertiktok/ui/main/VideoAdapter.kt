@@ -19,7 +19,7 @@ class VideoAdapter(private val videoList: List<VideoResponse>, private val mCont
         val avatarView: ImageView = holder.itemView.findViewById(R.id.avatar_img)
         Glide.with(mContext)
             .load(videoList[position].avatarUrl)
-            .placeholder(R.mipmap.test_image)
+            .placeholder(R.mipmap.default_avatar)
             .into(avatarView)
     }
 
