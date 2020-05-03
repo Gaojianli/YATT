@@ -1,4 +1,4 @@
-image: runmymind/docker-android-sdk:alpine-standalone
+image: cifcq90g.mirror.aliyuncs.com/runmymind/docker-android-sdk:alpine-standalone
 
 variables:
   ANDROID_COMPILE_SDK: "29"
