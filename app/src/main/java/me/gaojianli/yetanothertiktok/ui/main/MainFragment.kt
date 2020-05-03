@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
         viewModel.videoList.observe(this, Observer { t ->
             val recyclerView: RecyclerView = view.findViewById(R.id.recylerview)
             recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = VideoAdapter(t)
+            recyclerView.adapter = VideoAdapter(t, context!!)
         })
         return view
     }
