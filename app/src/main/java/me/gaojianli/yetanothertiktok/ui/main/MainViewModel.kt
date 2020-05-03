@@ -12,6 +12,4 @@ class MainViewModel : ViewModel() {
         emit(videoList)
     }
     // TODO: Implement the ViewModel
-
-
 }
