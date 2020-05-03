@@ -6,6 +6,7 @@ buildscript {
         //jcenter()
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0-alpha08'
@@ -22,6 +23,7 @@ allprojects {
         //jcenter()
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/jcenter' }
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
+        maven { url "https://jitpack.io" }
     }
 }
 

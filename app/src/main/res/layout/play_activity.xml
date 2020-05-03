@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="videoInfo"
+            type="me.gaojianli.yetanothertiktok.data.VideoResponse" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/fullscreenBackgroundColor"
+        android:theme="@style/Theme.App.NoActionBar.FullscreenContainer"
+        tools:context=".ui.main.PlayActivity">
+
+        <!-- The primary full-screen view. This can be replaced with whatever view
+             is needed to present your content, e.g. VideoView, SurfaceView,
+             TextureView, etc. -->
+        <FrameLayout
+            android:id="@+id/fullscreen_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:keepScreenOn="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical"
+                android:weightSum="2"
+                tools:ignore="UselessParent">
+                <!--useless-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <!--Here cames the button on the right -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:paddingTop="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
+                            android:layout_gravity="center_horizontal"
+                            app:cardBackgroundColor="@android:color/white"
+                            app:cardCornerRadius="250dp">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                app:cardCornerRadius="40dp">
+
+                                <ImageView
+                                    android:id="@+id/avatar_img"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@mipmap/default_avatar" />
+                            </androidx.cardview.widget.CardView>
+                        </androidx.cardview.widget.CardView>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{videoInfo.nickname}"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="20dp" />
+
+                        <com.jackandphantom.androidlikebutton.AndroidLikeButton
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            app:circle_endColor="#FF0000"
+                            app:circle_startColor="#DC143C"
+                            app:dot_color_1="#DC143C"
+                            app:dot_color_2="#FF0000"
+                            app:like_icon="@drawable/heart_on"
+                            app:unlike_icon="@drawable/heart_off" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{Integer.toString(videoInfo.likeCount)}"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+                    <!-- Here cames the description of the video-->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_marginLeft="20dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{videoInfo.description}"
+                                android:textColor="@android:color/white"
+                                android:textSize="25dp" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+</layout>
