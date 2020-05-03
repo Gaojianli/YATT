@@ -1,0 +1,50 @@
+image: jangrewe/gitlab-ci-android
+
+variables:
+  ANDROID_COMPILE_SDK: "29"
+  APP_NAME: "Yet Another tiktok"
+  ANDROID_BUILD_TOOLS: "29.0.3"
+  ANDROID_SDK_TOOLS:   "6392135"
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+    - .m2/
+    - .gradle/
+
+before_script:
+  - export GRADLE_USER_HOME=$(pwd)/.gradle
+  - chmod +x ./gradlew
+
+stages:
+  - build
+  - test
+
+lintDebug:
+  stage: build
+  script:
+    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+
+assembleDebug:
+  stage: build
+  script:
+    - ./gradlew assembleDebug
+  artifacts:
+    paths:
+    - app/build/outputs/
+
+assembleRelease:
+  stage: build
+  script:
+    - ./gradlew clean
+    - ./gradlew assembleRelease
+  artifacts:
+    paths:
+    - app/build/outputs/
+  only:
+    - master
+
+debugTests:
+  stage: test
+  script:
+    - ./gradlew -Pci --console=plain :app:testDebug
