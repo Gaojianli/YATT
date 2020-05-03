@@ -23,10 +23,23 @@
                 android:scaleType="centerCrop"
                 android:src="@mipmap/test_image" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="@{videoItem.description}"
+                android:ellipsize="end"
+                android:maxEms="16"
+                android:singleLine="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:textSize="20dp"
+                android:textColor="@android:color/white"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:padding="5dp"
+                android:layout_gravity="bottom"
                 android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content">
 
@@ -35,27 +48,26 @@
                     android:layout_height="42dp"
                     app:cardCornerRadius="250dp"
                     app:cardBackgroundColor="@android:color/white">
-
                     <androidx.cardview.widget.CardView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         app:cardCornerRadius="40dp"
                         android:layout_gravity="center">
-
                         <ImageView
                             android:layout_width="40dp"
                             android:id="@+id/avatar_img"
                             android:layout_height="40dp"
-                            android:src="@mipmap/test_image"
+                            android:src="@mipmap/default_avatar"
                             android:scaleType="centerCrop" />
                     </androidx.cardview.widget.CardView>
                 </androidx.cardview.widget.CardView>
-
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/white"
                     android:layout_marginTop="10dp"
+                    android:textSize="25dp"
                     android:text="@{videoItem.nickname}" />
             </LinearLayout>
 

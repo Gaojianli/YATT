@@ -32,6 +32,7 @@ class MainFragment : Fragment() {
             val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewList)
             recyclerView.layoutManager = LinearLayoutManager(context)
             recyclerView.adapter = VideoAdapter(t, context!!)
+
             val animateView: LottieAnimationView = view.findViewById(R.id.loading_animate)
             val fadeOutAnimator = AnimatorInflater.loadAnimator(context, R.animator.fade_out)
             val fadeInAnimator = AnimatorInflater.loadAnimator(context, R.animator.fade_in)
@@ -44,7 +45,6 @@ class MainFragment : Fragment() {
                     val parentContainer = (animateView.parent as ViewGroup)
                     parentContainer.removeView(animateView)
                 }
-
                 override fun onAnimationCancel(animation: Animator?) {}
                 override fun onAnimationRepeat(animation: Animator?) {}
             })
