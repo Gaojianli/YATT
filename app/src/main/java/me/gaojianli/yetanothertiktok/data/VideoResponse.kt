@@ -1,5 +1,6 @@
 package me.gaojianli.yetanothertiktok.data
 
+import androidx.databinding.BaseObservable
 import com.google.gson.annotations.SerializedName
 
 data class VideoResponse(
@@ -9,4 +10,4 @@ data class VideoResponse(
     @SerializedName("description") val description: String,
     @SerializedName("likecount") val likecount: Int,
     @SerializedName("avatar") val avatarUrl: String
-)
+) : BaseObservable()

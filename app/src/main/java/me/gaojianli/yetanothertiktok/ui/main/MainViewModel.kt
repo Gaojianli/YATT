@@ -11,5 +11,4 @@ class MainViewModel : ViewModel() {
         val videoList = repository.getVideoList()
         emit(videoList)
     }
-    // TODO: Implement the ViewModel
 }
