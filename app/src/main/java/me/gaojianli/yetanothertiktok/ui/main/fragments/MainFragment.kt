@@ -1,7 +1,7 @@
 package me.gaojianli.yetanothertiktok.ui.main.fragments
 
 import android.animation.Animator
-import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,34 +37,35 @@ class MainFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewList)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        var previewMap = HashMap<String, Bitmap>()
+        val videoAdapter = VideoAdapter(viewModel.videoList, previewMap, context!!)
+        recyclerView.adapter = videoAdapter
         viewModel.videoList.observe(this, Observer { t ->
-            val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewList)
             val animateView: LottieAnimationView = view.findViewById(R.id.loading_animate)
-            val fadeOutAnimator = AnimatorInflater.loadAnimator(context, R.animator.fade_out)
-            val fadeInAnimator = AnimatorInflater.loadAnimator(context, R.animator.fade_in)
-            fadeOutAnimator.setTarget(animateView)
-            fadeInAnimator.setTarget(recyclerView)
-            fadeOutAnimator.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {}
-                override fun onAnimationEnd(animation: Animator?) {
-                    fadeInAnimator.start()
-                    val parentContainer = (animateView.parent as ViewGroup)
-                    parentContainer.removeView(animateView)
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationRepeat(animation: Animator?) {}
-            })
             viewModel.viewModelScope.launch {
-                var previewMap = HashMap<String, Bitmap>()
-
                 withContext(Dispatchers.IO) {
                     previewMap = t.parmap { it.id to viewModel.getVideoPreview(it) }
                         .toMap() as HashMap<String, Bitmap>
                 }
-                recyclerView.layoutManager = LinearLayoutManager(context)
-                recyclerView.adapter = VideoAdapter(t, previewMap, context!!)
-                fadeOutAnimator.start()
+                videoAdapter.refresh(previewMap)
+                animateView.animate().alpha(0f).setDuration(150)
+                    .setListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationStart(animation: Animator?) {
+                            super.onAnimationStart(animation)
+                        }
+
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
+                            animateView.visibility = View.GONE
+                            recyclerView.apply {
+                                alpha = 0f
+                                visibility = View.VISIBLE
+                                animate().alpha(1f).setDuration(250).setListener(null)
+                            }
+                        }
+                    })
             }
         })
         return view

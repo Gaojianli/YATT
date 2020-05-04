@@ -9,9 +9,7 @@ variables:
 cache:
   key: ${CI_PROJECT_ID}
   paths:
-    - .m2/
     - .gradle/
-    - /sdk
 
 before_script:
   - export GRADLE_USER_HOME=$(pwd)/.gradle
