@@ -93,10 +93,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:text="@{videoInfo.nickname}"
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
-                            android:textSize="20dp" />
+                            android:textSize="10dp" />
 
                         <com.jackandphantom.androidlikebutton.AndroidLikeButton
                             android:layout_width="80dp"
@@ -113,10 +114,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="-10dp"
                             android:text="@{Integer.toString(videoInfo.likeCount)}"
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
-                            android:textSize="20dp" />
+                            android:textSize="10dp" />
                     </LinearLayout>
                     <!-- Here cames the description of the video-->
 
