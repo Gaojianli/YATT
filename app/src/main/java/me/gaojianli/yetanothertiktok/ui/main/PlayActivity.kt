@@ -1,14 +1,12 @@
 package me.gaojianli.yetanothertiktok.ui.main
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.ImageView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -24,11 +22,6 @@ import me.gaojianli.yetanothertiktok.databinding.PlayActivityBinding
  * status bar and navigation/system bar) with user interaction.
  */
 class PlayActivity : AppCompatActivity() {
-    override fun startActivity(intent: Intent?, options: Bundle?) {
-        super.startActivity(intent, options)
-        overridePendingTransition(R.anim.scale_enter, 0)
-    }
-
     private val hideHandler = Handler()
 
     @SuppressLint("InlinedApi")
@@ -47,7 +40,7 @@ class PlayActivity : AppCompatActivity() {
                     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
     }
     private var isFullscreen: Boolean = false
-
+    private lateinit var videoPreview: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +49,11 @@ class PlayActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val videoInfo = intent.getSerializableExtra("videoInfo") as VideoResponse
         val videoView = findViewById<VideoView>(R.id.videoView)
+        videoPreview = findViewById(R.id.video_preview)
         if (intent.hasExtra("previewPicture")) {
             val bitmapByteArray = intent.getByteArrayExtra("previewPicture")
             val bmp = BitmapFactory.decodeByteArray(bitmapByteArray, 0, bitmapByteArray?.size!!)
-            videoView.background = BitmapDrawable(resources, bmp)
+            videoPreview.setImageBitmap(bmp)
         }
         Glide.with(this)
             .load(videoInfo.avatarUrl)
@@ -68,8 +62,9 @@ class PlayActivity : AppCompatActivity() {
         mBinding.setVariable(BR.videoInfo, videoInfo)
         videoView.setOnPreparedListener { mp ->
             mp?.setOnInfoListener { _, what, _ ->
-                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START)
-                    videoView.setBackgroundColor(Color.TRANSPARENT)
+                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                    videoPreview.visibility = View.GONE
+                }
                 return@setOnInfoListener true
             }
         }
@@ -96,6 +91,11 @@ class PlayActivity : AppCompatActivity() {
 
         // Schedule a runnable to remove the status and navigation bar after a delay
         hideHandler.postDelayed(hidePart2Runnable, UI_ANIMATION_DELAY.toLong())
+    }
+
+    override fun onBackPressed() {
+        videoPreview.visibility = View.VISIBLE
+        finishAfterTransition()
     }
 
     companion object {
