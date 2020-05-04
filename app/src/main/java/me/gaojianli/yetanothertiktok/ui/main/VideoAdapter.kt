@@ -1,9 +1,11 @@
 package me.gaojianli.yetanothertiktok.ui.main
 
-import android.content.Context
+import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Intent
 import android.graphics.Bitmap
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
@@ -16,11 +18,12 @@ import me.gaojianli.yetanothertiktok.R
 import me.gaojianli.yetanothertiktok.data.VideoResponse
 import me.gaojianli.yetanothertiktok.databinding.VideoItemBinding
 import java.io.ByteArrayOutputStream
+import android.util.Pair as UtilPair
 
 class VideoAdapter(
     private val liveVideoList: LiveData<List<VideoResponse>>,
     previewMap: Map<String, Bitmap>,
-    private val mContext: Context
+    private val mContext: Activity
 ) :
     RecyclerView.Adapter<VideoAdapter.Companion.VideoViewHolder>() {
     private var videoList: List<VideoResponse> = ArrayList<VideoResponse>()
@@ -28,9 +31,27 @@ class VideoAdapter(
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.binding.setVariable(BR.videoItem, videoList[position])
         val cardView: CardView = holder.itemView.findViewById(R.id.list_item_cardview)
+        val avatarImage: ImageView = holder.itemView.findViewById(R.id.avatar_img)
         // Click event cards
         cardView.setOnClickListener {
+            val avatarView: View = holder.itemView.findViewById(R.id.avatar_view)
+            val titleText: View = holder.itemView.findViewById(R.id.title_text)
+            val backgroundImg: View = holder.itemView.findViewById(R.id.video_preview)
+            val nicknameText: View = holder.itemView.findViewById(R.id.nickname_text_view)
+
             val intent = Intent(mContext, PlayActivity::class.java)
+            val avatarShareElements = UtilPair.create(avatarView, "avatar_img")
+            val descriptionShareElements = UtilPair.create(titleText, "title_text")
+            val backgroundShareElements = UtilPair.create(backgroundImg, "background_img")
+            val nicknameShareElements = UtilPair.create(nicknameText, "nickname_text")
+
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                mContext,
+                avatarShareElements,
+                descriptionShareElements,
+                backgroundShareElements,
+                nicknameShareElements
+            )
             intent.putExtra("videoInfo", videoList[position])
             if (mPreviewMap.containsKey(videoList[position].id) && mPreviewMap[videoList[position].id] != null) {
                 val byteArrayOutputStream = ByteArrayOutputStream()
@@ -41,14 +62,13 @@ class VideoAdapter(
                 )
                 intent.putExtra("previewPicture", byteArrayOutputStream.toByteArray())
             }
-            mContext.startActivity(intent)
+            mContext.startActivity(intent, options.toBundle())
+            mContext.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
-        // Load avatar
-        val avatarView: ImageView = holder.itemView.findViewById(R.id.avatar_img)
         Glide.with(mContext)
             .load(videoList[position].avatarUrl)
             .placeholder(R.mipmap.default_avatar)
-            .into(avatarView)
+            .into(avatarImage)
         // Set preview image
         if (mPreviewMap.containsKey(videoList[position].id) && mPreviewMap[videoList[position].id] != null)
             holder.itemView.findViewById<ImageView>(R.id.video_preview)

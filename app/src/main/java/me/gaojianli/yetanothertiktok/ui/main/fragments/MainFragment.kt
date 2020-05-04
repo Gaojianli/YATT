@@ -40,7 +40,7 @@ class MainFragment : Fragment() {
         val recyclerView: RecyclerView = view.findViewById(R.id.recyclerViewList)
         recyclerView.layoutManager = LinearLayoutManager(context)
         var previewMap = HashMap<String, Bitmap>()
-        val videoAdapter = VideoAdapter(viewModel.videoList, previewMap, context!!)
+        val videoAdapter = VideoAdapter(viewModel.videoList, previewMap, activity!!)
         recyclerView.adapter = videoAdapter
 
         // Loading video list finished, refresh the recyclerView
