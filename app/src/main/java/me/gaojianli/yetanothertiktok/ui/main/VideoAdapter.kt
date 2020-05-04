@@ -2,6 +2,7 @@ package me.gaojianli.yetanothertiktok.ui.main
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -13,8 +14,13 @@ import me.gaojianli.yetanothertiktok.BR
 import me.gaojianli.yetanothertiktok.R
 import me.gaojianli.yetanothertiktok.data.VideoResponse
 import me.gaojianli.yetanothertiktok.databinding.VideoItemBinding
+import java.io.ByteArrayOutputStream
 
-class VideoAdapter(private val videoList: List<VideoResponse>, private val mContext: Context) :
+class VideoAdapter(
+    private val videoList: List<VideoResponse>,
+    private val previewMap: Map<String, Bitmap>,
+    private val mContext: Context
+) :
     RecyclerView.Adapter<VideoAdapter.Companion.VideoViewHolder>() {
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.binding.setVariable(BR.videoItem, videoList[position])
@@ -22,6 +28,15 @@ class VideoAdapter(private val videoList: List<VideoResponse>, private val mCont
         cardView.setOnClickListener {
             val intent = Intent(mContext, PlayActivity::class.java)
             intent.putExtra("videoInfo", videoList[position])
+            if (previewMap.containsKey(videoList[position].id) && previewMap[videoList[position].id] != null) {
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                previewMap[videoList[position].id]?.compress(
+                    Bitmap.CompressFormat.PNG,
+                    100,
+                    byteArrayOutputStream
+                )
+                intent.putExtra("previewPicture", byteArrayOutputStream.toByteArray())
+            }
             mContext.startActivity(intent)
         }
         val avatarView: ImageView = holder.itemView.findViewById(R.id.avatar_img)
@@ -29,6 +44,9 @@ class VideoAdapter(private val videoList: List<VideoResponse>, private val mCont
             .load(videoList[position].avatarUrl)
             .placeholder(R.mipmap.default_avatar)
             .into(avatarView)
+        if (previewMap.containsKey(videoList[position].id) && previewMap[videoList[position].id] != null)
+            holder.itemView.findViewById<ImageView>(R.id.video_preview)
+                .setImageBitmap(previewMap[videoList[position].id])
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {

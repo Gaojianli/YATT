@@ -2,9 +2,14 @@ package me.gaojianli.yetanothertiktok.ui.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -50,11 +55,32 @@ class PlayActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<PlayActivityBinding>(this, R.layout.play_activity)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val videoInfo = intent.getSerializableExtra("videoInfo") as VideoResponse
+        val videoView = findViewById<VideoView>(R.id.videoView)
+        if (intent.hasExtra("previewPicture")) {
+            val bitmapByteArray = intent.getByteArrayExtra("previewPicture")
+            val bmp = BitmapFactory.decodeByteArray(bitmapByteArray, 0, bitmapByteArray?.size!!)
+            videoView.background = BitmapDrawable(resources, bmp)
+        }
         Glide.with(this)
             .load(videoInfo.avatarUrl)
             .placeholder(R.mipmap.default_avatar)
             .into(findViewById(R.id.avatar_img))
         mBinding.setVariable(BR.videoInfo, videoInfo)
+        videoView.setOnPreparedListener { mp ->
+            mp?.setOnInfoListener { _, what, _ ->
+                if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START)
+                    videoView.setBackgroundColor(Color.TRANSPARENT)
+                return@setOnInfoListener true
+            }
+        }
+        videoView.setOnCompletionListener { mp ->
+            mp.start()
+            mp.isLooping = true
+        }
+        videoView.setVideoPath(videoInfo.url)
+        videoView.requestFocus()
+
+        videoView.start()
         isFullscreen = true
     }
 
