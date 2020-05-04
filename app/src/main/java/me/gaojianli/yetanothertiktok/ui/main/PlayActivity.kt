@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.MediaController
+import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -13,6 +15,7 @@ import me.gaojianli.yetanothertiktok.BR
 import me.gaojianli.yetanothertiktok.R
 import me.gaojianli.yetanothertiktok.data.VideoResponse
 import me.gaojianli.yetanothertiktok.databinding.PlayActivityBinding
+import retrofit2.http.Url
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -50,11 +53,21 @@ class PlayActivity : AppCompatActivity() {
             DataBindingUtil.setContentView<PlayActivityBinding>(this, R.layout.play_activity)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val videoInfo = intent.getSerializableExtra("videoInfo") as VideoResponse
+
         Glide.with(this)
             .load(videoInfo.avatarUrl)
             .placeholder(R.mipmap.default_avatar)
             .into(findViewById(R.id.avatar_img))
         mBinding.setVariable(BR.videoInfo, videoInfo)
+
+        val videoView = findViewById<VideoView>(R.id.videoView)
+        //val mediaController = MediaController(this)
+        //mediaController.setAnchorView(videoView)
+        //videoView.setMediaController(mediaController)
+        ///don't need this kind of thing for short video
+        videoView.setVideoPath(videoInfo.url)
+        videoView.requestFocus()
+        videoView.start()
         isFullscreen = true
     }
 

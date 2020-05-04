@@ -20,12 +20,29 @@
         <!-- The primary full-screen view. This can be replaced with whatever view
              is needed to present your content, e.g. VideoView, SurfaceView,
              TextureView, etc. -->
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+        <!-- I make the video stretch to full the stream up-->
+
         <FrameLayout
             android:id="@+id/fullscreen_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:keepScreenOn="true">
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,6 +52,8 @@
                 android:weightSum="2"
                 tools:ignore="UselessParent">
                 <!--useless-->
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -104,6 +123,7 @@
                             android:textSize="20dp" />
                     </LinearLayout>
                     <!-- Here cames the description of the video-->
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
