@@ -28,6 +28,7 @@ class VideoAdapter(
     override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
         holder.binding.setVariable(BR.videoItem, videoList[position])
         val cardView: CardView = holder.itemView.findViewById(R.id.list_item_cardview)
+        // Click event cards
         cardView.setOnClickListener {
             val intent = Intent(mContext, PlayActivity::class.java)
             intent.putExtra("videoInfo", videoList[position])
@@ -42,11 +43,13 @@ class VideoAdapter(
             }
             mContext.startActivity(intent)
         }
+        // Load avatar
         val avatarView: ImageView = holder.itemView.findViewById(R.id.avatar_img)
         Glide.with(mContext)
             .load(videoList[position].avatarUrl)
             .placeholder(R.mipmap.default_avatar)
             .into(avatarView)
+        // Set preview image
         if (mPreviewMap.containsKey(videoList[position].id) && mPreviewMap[videoList[position].id] != null)
             holder.itemView.findViewById<ImageView>(R.id.video_preview)
                 .setImageBitmap(mPreviewMap[videoList[position].id])
@@ -73,8 +76,7 @@ class VideoAdapter(
 
     companion object {
         class VideoViewHolder(val binding: VideoItemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-        }
+            RecyclerView.ViewHolder(binding.root)
     }
 }
 

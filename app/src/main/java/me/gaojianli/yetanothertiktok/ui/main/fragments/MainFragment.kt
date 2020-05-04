@@ -42,20 +42,20 @@ class MainFragment : Fragment() {
         var previewMap = HashMap<String, Bitmap>()
         val videoAdapter = VideoAdapter(viewModel.videoList, previewMap, context!!)
         recyclerView.adapter = videoAdapter
+
+        // Loading video list finished, refresh the recyclerView
         viewModel.videoList.observe(this, Observer { t ->
             val animateView: LottieAnimationView = view.findViewById(R.id.loading_animate)
             viewModel.viewModelScope.launch {
+                // Fetch the preview image of each video
                 withContext(Dispatchers.IO) {
                     previewMap = t.parmap { it.id to viewModel.getVideoPreview(it) }
                         .toMap() as HashMap<String, Bitmap>
                 }
                 videoAdapter.refresh(previewMap)
+                // Remove loading view
                 animateView.animate().alpha(0f).setDuration(150)
                     .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationStart(animation: Animator?) {
-                            super.onAnimationStart(animation)
-                        }
-
                         override fun onAnimationEnd(animation: Animator?) {
                             super.onAnimationEnd(animation)
                             animateView.visibility = View.GONE
@@ -70,10 +70,4 @@ class MainFragment : Fragment() {
         })
         return view
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
-
 }
