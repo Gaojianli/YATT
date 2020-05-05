@@ -94,7 +94,12 @@ class PlayActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        videoPreview.visibility = View.VISIBLE
+        val previewHeight = intent.getIntExtra("previewHeight", 0)
+        if (previewHeight < videoPreview.height) {
+            videoView.suspend()
+            //videoView.visibility = View.GONE
+            videoPreview.visibility = View.VISIBLE
+        }
         finishAfterTransition()
     }
 

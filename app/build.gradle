@@ -26,6 +26,11 @@ android {
             debuggable false
             signingConfig signingConfigs.debug
         }
+        debug{
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

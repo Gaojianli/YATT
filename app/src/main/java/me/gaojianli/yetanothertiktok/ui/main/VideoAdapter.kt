@@ -53,6 +53,7 @@ class VideoAdapter(
                 nicknameShareElements
             )
             intent.putExtra("videoInfo", videoList[position])
+            intent.putExtra("previewHeight", backgroundImg.measuredHeight)
             if (mPreviewMap.containsKey(videoList[position].id) && mPreviewMap[videoList[position].id] != null) {
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 mPreviewMap[videoList[position].id]?.compress(
