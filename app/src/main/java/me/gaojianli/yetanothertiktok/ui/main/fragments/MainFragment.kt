@@ -49,7 +49,9 @@ class MainFragment : Fragment() {
             viewModel.viewModelScope.launch {
                 // Fetch the preview image of each video
                 withContext(Dispatchers.IO) {
-                    previewMap = t.parmap { it.id to viewModel.getVideoPreview(it) }
+                    previewMap = t.parmap {
+                        it.id to viewModel.getVideoPreview(it)
+                    }
                         .toMap() as HashMap<String, Bitmap>
                 }
                 videoAdapter.refresh(previewMap)

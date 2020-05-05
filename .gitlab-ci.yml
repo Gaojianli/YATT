@@ -43,6 +43,7 @@ assembleRelease:
     - app/build/outputs/
   only:
     - master
+    - tags
 
 debugTests:
   stage: test
