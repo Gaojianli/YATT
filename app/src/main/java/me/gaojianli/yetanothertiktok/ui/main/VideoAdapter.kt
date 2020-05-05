@@ -68,7 +68,7 @@ class VideoAdapter(
         }
         Glide.with(mContext)
             .load(videoList[position].avatarUrl)
-            .placeholder(R.mipmap.default_avatar)
+            .placeholder(R.drawable.default_avatar)
             .into(avatarImage)
         // Set preview image
         if (mPreviewMap.containsKey(videoList[position].id) && mPreviewMap[videoList[position].id] != null)

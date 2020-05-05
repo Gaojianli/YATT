@@ -5,8 +5,10 @@ import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -50,6 +52,7 @@ class PlayActivity : AppCompatActivity() {
         val videoInfo = intent.getSerializableExtra("videoInfo") as VideoResponse
         val videoView = findViewById<VideoView>(R.id.videoView)
         videoPreview = findViewById(R.id.video_preview)
+        val progressBar: ProgressBar = findViewById(R.id.progressBar)
         if (intent.hasExtra("previewPicture")) {
             val bitmapByteArray = intent.getByteArrayExtra("previewPicture")
             val bmp = BitmapFactory.decodeByteArray(bitmapByteArray, 0, bitmapByteArray?.size!!)
@@ -57,21 +60,21 @@ class PlayActivity : AppCompatActivity() {
         }
         Glide.with(this)
             .load(videoInfo.avatarUrl)
-            .placeholder(R.mipmap.default_avatar)
+            .placeholder(R.drawable.default_avatar)
             .into(findViewById(R.id.avatar_img))
         mBinding.setVariable(BR.videoInfo, videoInfo)
         videoView.setOnPreparedListener { mp ->
+            mp.isLooping = true
             mp?.setOnInfoListener { _, what, _ ->
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                    videoPreview.visibility = View.GONE
+                    Log.d("Play", "Ready to play!")
+                    progressBar.visibility = View.GONE
+                    Handler().postDelayed({ videoPreview.visibility = View.GONE }, 250)
                 }
                 return@setOnInfoListener true
             }
         }
-        videoView.setOnCompletionListener { mp ->
-            mp.start()
-            mp.isLooping = true
-        }
+
         videoView.setVideoPath(videoInfo.url)
         videoView.requestFocus()
 
