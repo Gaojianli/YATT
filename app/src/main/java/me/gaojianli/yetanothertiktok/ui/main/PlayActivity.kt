@@ -6,6 +6,8 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -13,6 +15,7 @@ import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.jackandphantom.androidlikebutton.AndroidLikeButton
 import kotlinx.android.synthetic.main.play_activity.*
 import me.gaojianli.yetanothertiktok.BR
 import me.gaojianli.yetanothertiktok.R
@@ -51,6 +54,7 @@ class PlayActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val videoInfo = intent.getSerializableExtra("videoInfo") as VideoResponse
         val videoView = findViewById<VideoView>(R.id.videoView)
+        val likeButton: AndroidLikeButton = findViewById(R.id.like_button)
         videoPreview = findViewById(R.id.video_preview)
         val progressBar: ProgressBar = findViewById(R.id.progressBar)
         if (intent.hasExtra("previewPicture")) {
@@ -77,6 +81,11 @@ class PlayActivity : AppCompatActivity() {
 
         videoView.setVideoPath(videoInfo.url)
         videoView.requestFocus()
+        val mGestureDetector = GestureDetector(this, TouchGestureListener(videoView, likeButton))
+        videoView.setOnTouchListener { _, event ->
+            mGestureDetector.onTouchEvent(event)
+            return@setOnTouchListener true
+        }
 
         videoView.start()
         isFullscreen = true
@@ -104,6 +113,28 @@ class PlayActivity : AppCompatActivity() {
             videoPreview.visibility = View.VISIBLE
         }
         finishAfterTransition()
+    }
+
+    class TouchGestureListener(
+        private val videoView: VideoView,
+        private val likeButton: AndroidLikeButton
+    ) : GestureDetector.SimpleOnGestureListener() {
+        override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+            if (videoView.isPlaying)
+                videoView.pause()
+            else
+                videoView.start()
+            return true
+        }
+
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
+//            val field = AndroidLikeButton::class.java.getDeclaredField("isLiked")
+//            field.isAccessible = true
+//            val isLiked = field.get(likeButton) as Boolean
+//            likeButton.setCurrentlyLiked(!isLiked)
+            likeButton.onClick(likeButton)
+            return true
+        }
     }
 
     companion object {
