@@ -53,6 +53,7 @@ class VideoAdapter(
                 nicknameShareElements
             )
             intent.putExtra("videoInfo", videoList[position])
+            intent.putExtra("previewHeight", backgroundImg.measuredHeight)
             if (mPreviewMap.containsKey(videoList[position].id) && mPreviewMap[videoList[position].id] != null) {
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 mPreviewMap[videoList[position].id]?.compress(
@@ -67,7 +68,7 @@ class VideoAdapter(
         }
         Glide.with(mContext)
             .load(videoList[position].avatarUrl)
-            .placeholder(R.mipmap.default_avatar)
+            .placeholder(R.drawable.default_avatar)
             .into(avatarImage)
         // Set preview image
         if (mPreviewMap.containsKey(videoList[position].id) && mPreviewMap[videoList[position].id] != null)

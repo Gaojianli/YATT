@@ -12,6 +12,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/play_activity_root"
         android:background="@android:color/background_dark"
         android:theme="@style/Theme.App.NoActionBar.FullscreenContainer"
         tools:context=".ui.main.PlayActivity">
@@ -38,15 +39,22 @@
             android:layout_marginEnd="0dp"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="0dp"
-            android:transitionName="background_img"
-            />
+            android:transitionName="background_img" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center" />
+
         <FrameLayout
             android:id="@+id/fullscreen_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:keepScreenOn="true">
-
 
 
             <LinearLayout
@@ -96,7 +104,7 @@
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:scaleType="centerCrop"
-                                    android:src="@mipmap/default_avatar"
+                                    android:src="@drawable/default_avatar"
                                     />
                             </androidx.cardview.widget.CardView>
                         </androidx.cardview.widget.CardView>
@@ -117,6 +125,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
                             app:circle_endColor="#FF0000"
+                            android:id="@+id/like_button"
                             app:circle_startColor="#DC143C"
                             app:dot_color_1="#DC143C"
                             app:dot_color_2="#FF0000"
